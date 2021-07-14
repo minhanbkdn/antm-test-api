@@ -52,6 +52,7 @@ namespace JOIEnergy
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IMeterReadingService, MeterReadingService>();
             services.AddTransient<IPricePlanService, PricePlanService>();
+            services.AddTransient<ICostCalculatorService, CostCalculatorService>();
             services.AddSingleton((IServiceProvider arg) => readings);
             services.AddSingleton((IServiceProvider arg) => pricePlans);
             services.AddSingleton((IServiceProvider arg) => SmartMeterToPricePlanAccounts);
@@ -68,7 +69,8 @@ namespace JOIEnergy
             app.UseMvc();
         }
 
-        private Dictionary<string, List<ElectricityReading>> GenerateMeterElectricityReadings() {
+        private Dictionary<string, List<ElectricityReading>> GenerateMeterElectricityReadings()
+        {
             var readings = new Dictionary<string, List<ElectricityReading>>();
             var generator = new ElectricityReadingGenerator();
             var smartMeterIds = SmartMeterToPricePlanAccounts.Select(mtpp => mtpp.Key);

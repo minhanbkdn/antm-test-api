@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JOIEnergy.Domain;
+using JOIEnergy.Enums;
 
 namespace JOIEnergy.Services
 {
@@ -36,7 +37,7 @@ namespace JOIEnergy.Services
         {
             var average = calculateAverageReading(electricityReadings);
             var timeElapsed = calculateTimeElapsed(electricityReadings);
-            var averagedCost = average/timeElapsed;
+            var averagedCost = average / timeElapsed;
             return averagedCost * pricePlan.UnitRate;
         }
 
@@ -49,6 +50,11 @@ namespace JOIEnergy.Services
                 return new Dictionary<string, decimal>();
             }
             return _pricePlans.ToDictionary(plan => plan.EnergySupplier.ToString(), plan => calculateCost(electricityReadings, plan));
+        }
+
+        public PricePlan GetPricePlanBySupplier(Supplier supplier)
+        {
+            return _pricePlans.FirstOrDefault(x => x.EnergySupplier == supplier);
         }
     }
 }
